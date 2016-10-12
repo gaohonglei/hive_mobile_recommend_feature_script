@@ -1,0 +1,77 @@
+use itemRecommend;
+drop table if exists item_f1;
+create table item_f1 as select item_id,
+sum(case when (behavior_type=1 and time <'${hiveconf:feature_time}') then 1 else 0 end) as i1,
+sum(case when (behavior_type=2 and time <'${hiveconf:feature_time}') then 1 else 0 end) as i2,
+sum(case when (behavior_type=3 and time <'${hiveconf:feature_time}') then 1 else 0 end) as i3,
+sum(case when (behavior_type=4 and time <'${hiveconf:feature_time}') then 1 else 0 end) as i4,
+
+sum(case when (behavior_type=1 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=1) then 1 else 0 end) as i37,
+sum(case when (behavior_type=1 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=2) then 1 else 0 end) as i38,
+sum(case when (behavior_type=1 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=3) then 1 else 0 end) as i39,
+sum(case when (behavior_type=1 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=5) then 1 else 0 end) as i40,
+sum(case when (behavior_type=1 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=7) then 1 else 0 end) as i41,
+
+sum(case when (behavior_type=2 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=1) then 1 else 0 end) as i42,
+sum(case when (behavior_type=2 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=2) then 1 else 0 end) as i43,
+sum(case when (behavior_type=2 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=3) then 1 else 0 end) as i44,
+sum(case when (behavior_type=2 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=5) then 1 else 0 end) as i45,
+sum(case when (behavior_type=2 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=7) then 1 else 0 end) as i46,
+sum(case when (behavior_type=3 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=1) then 1 else 0 end) as i47,
+sum(case when (behavior_type=3 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=2) then 1 else 0 end) as i48,
+sum(case when (behavior_type=3 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=3) then 1 else 0 end) as i49,
+sum(case when (behavior_type=3 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=5) then 1 else 0 end) as i50,
+sum(case when (behavior_type=3 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=7) then 1 else 0 end) as i51,
+
+sum(case when (behavior_type=4 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=1) then 1 else 0 end) as i52,
+sum(case when (behavior_type=4 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=2) then 1 else 0 end) as i53,
+sum(case when (behavior_type=4 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=2) then 1 else 0 end) as i54,
+sum(case when (behavior_type=4 and time <'${hiveconf:feature_time}' and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<=3) then 1 else 0 end) as i55,
+count( distinct case when (behavior_type=1) then user_id end) as i5,
+count( distinct case when (behavior_type=2) then user_id end) as i6,
+count( distinct case when (behavior_type=3) then user_id end) as i7,
+count( distinct case when (behavior_type=4) then user_id end) as i8,
+
+count( distinct case when (behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=1) then user_id end) as i56,
+count( distinct case when (behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<3) then user_id end) as i57,
+count( distinct case when (behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<5) then user_id end) as i58,
+count( distinct case when (behavior_type=2 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=1) then user_id end) as i59,
+count( distinct case when (behavior_type=2 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<3) then user_id end) as i60,
+count( distinct case when (behavior_type=2 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<5) then user_id end) as i61,
+count( distinct case when (behavior_type=3 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=1) then user_id end) as i62,
+count( distinct case when (behavior_type=3 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=1) then user_id end) as i63,
+count( distinct case when (behavior_type=3 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<3) then user_id end) as i64,
+count( distinct case when (behavior_type=4 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<5) then user_id end) as i65,
+count( distinct case when (behavior_type=4 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<3) then user_id end) as i66,
+count( distinct case when (behavior_type=4 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<5) then user_id end) as i67,
+
+case when sum(case when (behavior_type=1 and time <'${hiveconf:feature_time}') then 1 else 0 end)!=0 then 11550000/sum(case when (behavior_type=1 and time <'${hiveconf:feature_time}') then 1 else 0 end) else 0 end as i9,
+case when sum(case when (behavior_type=2 and time <'${hiveconf:feature_time}') then 1 else 0 end)!=0 then 242556/sum(case when (behavior_type=2 and time <'${hiveconf:feature_time}') then 1 else 0 end) else 0 end as i10,
+case when sum(case when (behavior_type=3 and time <'${hiveconf:feature_time}') then 1 else 0 end)!=0 then 343564/sum(case when (behavior_type=3 and time <'${hiveconf:feature_time}') then 1 else 0 end) else 0 end as i11,
+case when sum(case when (behavior_type=4 and time <'${hiveconf:feature_time}') then 1 else 0 end)!=0 then 120205/sum(case when (behavior_type=4 and time <'${hiveconf:feature_time}') then 1 else 0 end) else 0 end as i12,
+
+sum(case when (behavior_type =1) then 1 else 0 end)/count(distinct user_id) as i13,
+sum(case when (behavior_type =2) then 1 else 0 end)/count(distinct user_id) as i14,
+sum(case when (behavior_type =3) then 1 else 0 end)/count(distinct user_id) as i15,
+sum(case when (behavior_type =4) then 1 else 0 end)/count(distinct user_id) as i16,
+
+case when sum(case when behavior_type=1 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=1 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=1 then 1 else 0 end) end as i21,
+case when sum(case when behavior_type=1 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=2 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=1 then 1 else 0 end) end as i22,
+case when sum(case when behavior_type=1 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=3 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=1 then 1 else 0 end) end as i23,
+case when sum(case when behavior_type=1 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<4 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=1 then 1 else 0 end) end as i24,
+
+case when sum(case when behavior_type=2 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=1 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=2 then 1 else 0 end) end as i25,
+case when sum(case when behavior_type=2 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=2 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=2 then 1 else 0 end) end as i26,
+case when sum(case when behavior_type=2 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=3 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=2 then 1 else 0 end) end as i27,
+case when sum(case when behavior_type=2 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<4 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=2 then 1 else 0 end) end as i28,
+
+case when sum(case when behavior_type=3 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=1 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=3 then 1 else 0 end) end as i29,
+case when sum(case when behavior_type=3 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=2 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=3 then 1 else 0 end) end as i30,
+case when sum(case when behavior_type=3 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=3 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=3 then 1 else 0 end) end as i31,
+case when sum(case when behavior_type=3 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<4 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=3 then 1 else 0 end) end as i32,
+
+
+case when sum(case when behavior_type=4 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=1 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=4 then 1 else 0 end) end as i33,
+case when sum(case when behavior_type=4 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=2 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=4 then 1 else 0 end) end as i34,
+case when sum(case when behavior_type=4 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))=3 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=4 then 1 else 0 end) end as i35,
+case when sum(case when behavior_type=4 then 1 else 0 end)=0 then 0 else sum(case when behavior_type=1 and datediff(substr('${hiveconf:feature_time}',0,10),substr(time,0,10))<4 then 1 else 0 end) * datediff(substr('${hiveconf:feature_time}',0,10),substr('2014-11-18 00',0,10))/sum(case when behavior_type=4 then 1 else 0 end) end as i36 from train_user where time < '${hiveconf:feature_time}' group by item_id;
